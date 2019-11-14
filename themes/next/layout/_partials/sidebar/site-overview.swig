@@ -1,6 +1,8 @@
 <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <img class="site-author-image" itemprop="image" alt="{{ author }}"
-    src="{{ url_for(theme.avatar.url or theme.images + '/avatar.gif') }}">
+  {%- if theme.avatar.url %}
+    <img class="site-author-image" itemprop="image" alt="{{ author }}"
+      src="{{ url_for(theme.avatar.url) }}">
+  {%- endif %}
   <p class="site-author-name" itemprop="name">{{ author }}</p>
   <div class="site-description" itemprop="description">{{ description }}</div>
 </div>
@@ -58,9 +60,9 @@
 </div>
 {%- endif %}
 
-{%- if theme.rss %}
+{%- if rss %}
   <div class="feed-link motion-element">
-    <a href="{{ url_for(theme.rss) }}" rel="alternate">
+    <a href="{{ url_for(rss) }}" rel="alternate">
       <i class="fa fa-rss"></i>RSS
     </a>
   </div>
@@ -95,7 +97,7 @@
       {%- else %}
         {%- set sidebarText = name %}
       {%- endif %}
-        {{ next_url(sidebarURL, sidebarIcon + sidebarText, {title: name + ' &rarr; ' + sidebarURL}) }}
+        {{ next_url(sidebarURL, sidebarIcon + sidebarText, {title: name + ' → ' + sidebarURL}) }}
       </span>
     {%- endfor %}
   </div>
