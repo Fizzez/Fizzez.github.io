@@ -1,5 +1,5 @@
 /**
- * group-pictures.js | https://theme-next.org/docs/tag-plugins/group-pictures
+ * group-pictures.js | https://theme-next.js.org/docs/tag-plugins/group-pictures
  */
 
 /* global hexo */
@@ -73,9 +73,9 @@ var LAYOUTS = {
 
 function groupBy(group, data) {
   var r = [];
-  for (var i = 0; i < group.length; i++) {
-    r.push(data.slice(0, group[i]));
-    data = data.slice(group[i]);
+  for (let count of group) {
+    r.push(data.slice(0, count));
+    data = data.slice(count);
   }
   return r;
 }
@@ -109,11 +109,9 @@ var templates = {
   },
 
   getHTML: function(rows) {
-    var rowHTML = rows.map(row => {
+    return rows.map(row => {
       return `<div class="group-picture-row">${this.getColumnHTML(row)}</div>`;
     }).join('');
-
-    return `<div class="group-picture-container">${rowHTML}</div>`;
   },
 
   getColumnHTML: function(pictures) {

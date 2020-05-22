@@ -1,6 +1,6 @@
 /* global CONFIG */
 
-window.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   var doSaveScroll = () => {
@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!isNaN(top) && location.hash === '') {
       // Auto scroll to the position
       window.anime({
-        targets  : [document.documentElement, document.body],
+        targets  : document.scrollingElement,
         duration : 200,
         easing   : 'linear',
         scrollTop: top
@@ -31,7 +31,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (trigger === 'auto') {
       // Register beforeunload event
       window.addEventListener('beforeunload', doSaveScroll);
-      window.addEventListener('pjax:send', doSaveScroll);
+      document.addEventListener('pjax:send', doSaveScroll);
     }
     // Save the position by clicking the icon
     link.addEventListener('click', () => {
@@ -49,7 +49,7 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     });
     scrollToMark();
-    window.addEventListener('pjax:success', scrollToMark);
+    document.addEventListener('pjax:success', scrollToMark);
   };
 
   init(CONFIG.bookmark.save);
