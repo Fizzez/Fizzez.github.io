@@ -1,3 +1,12 @@
+---
+title: "Pandas: How to convert string in cells to column names"
+tags: 
+- Pandas
+- English
+---
+
+
+
 ## Pandas: How to convert list in cells to columns
 
 #### Description:
