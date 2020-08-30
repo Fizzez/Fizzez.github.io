@@ -281,7 +281,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-30 15:25:43" itemprop="dateModified" datetime="2020-08-30T15:25:43+09:00">2020-08-30</time>
+                <time title="Modified: 2020-08-30 15:30:49" itemprop="dateModified" datetime="2020-08-30T15:30:49+09:00">2020-08-30</time>
               </span>
 
           
@@ -345,7 +345,7 @@
 <p>如果对已有repo修改push地址，则需要修改repo根目录下<code>.git/config</code>中<code>remote</code>字段内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[core]</span><br><span class="line">        repositoryformatversion = 0</span><br><span class="line">        filemode = true</span><br><span class="line">        bare = false</span><br><span class="line">        logallrefupdates = true</span><br><span class="line">        ignorecase = true</span><br><span class="line">        precomposeunicode = true</span><br><span class="line">[remote &quot;origin&quot;]</span><br><span class="line">        # 此处将github.com为Host别名</span><br><span class="line">        url = git@github.com:fastai/fastai_dev.git</span><br><span class="line">        fetch = +refs/heads/*:refs/remotes/origin/*</span><br><span class="line">[branch &quot;master&quot;]</span><br><span class="line">        remote = origin</span><br><span class="line">        merge = refs/heads/master</span><br><span class="line">[user]</span><br><span class="line">        name = github_user1</span><br><span class="line">        email = your_email_1@example.com</span><br></pre></td></tr></table></figure>
 
-<p>因为在上面配置SSH的config文件时，用指定的Host别名替代了原来的Hostname，所以现在应该对不同用户使用不同的Host别名来替代Hostnam`。</p>
+<p>因为在上面配置SSH的config文件时，用指定的Host别名替代了原来的Hostname，所以现在应该对不同用户使用不同的Host别名来替代Hostname。</p>
 <p>另外，在项目根目录分别设置用户名和邮箱的方法是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config user.name github_user1</span><br><span class="line">git config user.email your_email_1@example.com</span><br></pre></td></tr></table></figure>
 

@@ -21,7 +21,7 @@
   </script>
 
   <meta name="description" content="SSH原理Secure Shell (SSH)，是一种加密的网络传输协议，最常见的用途是登录到远程电脑中执行命令。SSH使用客户端-服务器模型，标准端口为22。SSH以非对称加密实现身份验证（关于对称以及非对称加密， 详见参考[2]）。从客户端来看，SSH提供两种级别的安全验证：  基于密码的安全验证：使用自动生成的“公钥-私钥对”来简单的加密网络链接，随后使用密码认证进行登录。所有传输的数据都会">
-<meta name="keywords" content="System,Git,Chinese">
+<meta name="keywords" content="System,Chinese,Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SSH原理和Github多用户设置">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;08&#x2F;28&#x2F;what-is-ssh&#x2F;index.html">
@@ -31,7 +31,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;source&#x2F;images&#x2F;what-is-ssh&#x2F;ssh_pwd_base.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;source&#x2F;images&#x2F;what-is-ssh&#x2F;ssh_pubkey_base.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;source&#x2F;images&#x2F;what-is-ssh&#x2F;github-ssh.png">
-<meta property="og:updated_time" content="2020-08-30T06:25:43.748Z">
+<meta property="og:updated_time" content="2020-08-30T06:30:49.382Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;source&#x2F;images&#x2F;what-is-ssh&#x2F;ssh_pwd_base.png">
 
@@ -166,7 +166,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-30 15:25:43" itemprop="dateModified" datetime="2020-08-30T15:25:43+09:00">2020-08-30</time>
+                <time title="Modified: 2020-08-30 15:30:49" itemprop="dateModified" datetime="2020-08-30T15:30:49+09:00">2020-08-30</time>
               </span>
 
           
@@ -230,7 +230,7 @@
 <p>如果对已有repo修改push地址，则需要修改repo根目录下<code>.git/config</code>中<code>remote</code>字段内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[core]</span><br><span class="line">        repositoryformatversion = 0</span><br><span class="line">        filemode = true</span><br><span class="line">        bare = false</span><br><span class="line">        logallrefupdates = true</span><br><span class="line">        ignorecase = true</span><br><span class="line">        precomposeunicode = true</span><br><span class="line">[remote &quot;origin&quot;]</span><br><span class="line">        # 此处将github.com为Host别名</span><br><span class="line">        url = git@github.com:fastai/fastai_dev.git</span><br><span class="line">        fetch = +refs/heads/*:refs/remotes/origin/*</span><br><span class="line">[branch &quot;master&quot;]</span><br><span class="line">        remote = origin</span><br><span class="line">        merge = refs/heads/master</span><br><span class="line">[user]</span><br><span class="line">        name = github_user1</span><br><span class="line">        email = your_email_1@example.com</span><br></pre></td></tr></table></figure>
 
-<p>因为在上面配置SSH的config文件时，用指定的Host别名替代了原来的Hostname，所以现在应该对不同用户使用不同的Host别名来替代Hostnam`。</p>
+<p>因为在上面配置SSH的config文件时，用指定的Host别名替代了原来的Hostname，所以现在应该对不同用户使用不同的Host别名来替代Hostname。</p>
 <p>另外，在项目根目录分别设置用户名和邮箱的方法是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config user.name github_user1</span><br><span class="line">git config user.email your_email_1@example.com</span><br></pre></td></tr></table></figure>
 
@@ -251,8 +251,8 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/System/" rel="tag"># System</a>
-              <a href="/tags/Git/" rel="tag"># Git</a>
               <a href="/tags/Chinese/" rel="tag"># Chinese</a>
+              <a href="/tags/Git/" rel="tag"># Git</a>
           </div>
 
         
