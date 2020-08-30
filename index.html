@@ -281,7 +281,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-30 15:37:27" itemprop="dateModified" datetime="2020-08-30T15:37:27+09:00">2020-08-30</time>
+                <time title="Modified: 2020-08-30 15:39:17" itemprop="dateModified" datetime="2020-08-30T15:39:17+09:00">2020-08-30</time>
               </span>
 
           
@@ -300,7 +300,7 @@
 <li><strong>基于密码的安全验证</strong>：使用自动生成的“公钥-私钥对”来简单的加密网络链接，随后使用密码认证进行登录。所有传输的数据都会被加密，但是可能会有别的服务器在冒充真正的服务器，无法避免被中间人攻击。</li>
 <li><strong>基于密钥的安全验证</strong>：创建”公钥-私钥对“（e.g. 使用<code>ssh-keygen</code>命令），通过生成的密钥进行认证。公钥放在需要访问的服务器上（通常在<code>~/.ssh/authorized_keys</code>文件中），而对应的私钥由客户端保管。客户端软件会向服务器发出请求，请求用你的密钥进行安全验证。服务器收到请求后，先在你在该服务器的用户根目录下寻找你的公钥，然后把它和你发过来的公钥进行比较。如果两者一致，服务器就用公钥加密“质询”（challenge）并把它发给客户端软件，从而避免被中间人攻击。</li>
 </ol>
-<h2 id="基于密码的安全验证流程"><a href="#基于密码的安全验证流程" class="headerlink" title="基于密码的安全验证流程"></a>基于密码的安全验证流程</h2><p><img src="/source/images/what-is-ssh/ssh_pwd_base.png" alt="基于密码的安全验证流程"></p>
+<h2 id="基于密码的安全验证流程"><a href="#基于密码的安全验证流程" class="headerlink" title="基于密码的安全验证流程"></a>基于密码的安全验证流程</h2><p><img src="/images/what-is-ssh/ssh_pwd_base.png" alt="基于密码的安全验证流程"></p>
 <ol>
 <li>Server收到Client的登录请求，并把自己的公钥发送给Client。</li>
 <li>Client使用这个公钥将登陆密码进行加密。</li>
@@ -308,7 +308,7 @@
 <li>Server使用自己的私钥将消息解密得到登陆密码，并验证其合法性。</li>
 <li>根据验证结果，给Client相应的响应。</li>
 </ol>
-<h2 id="基于密钥的安全验证流程"><a href="#基于密钥的安全验证流程" class="headerlink" title="基于密钥的安全验证流程"></a>基于密钥的安全验证流程</h2><p><img src="/source/images/what-is-ssh/ssh_pubkey_base.png" alt=""></p>
+<h2 id="基于密钥的安全验证流程"><a href="#基于密钥的安全验证流程" class="headerlink" title="基于密钥的安全验证流程"></a>基于密钥的安全验证流程</h2><p><img src="/images/what-is-ssh/ssh_pubkey_base.png" alt=""></p>
 <ol>
 <li>Client侧生成一对公钥和私钥，并将自己的公钥存放在Server端，追加在文件<code>authorized_keys</code>中。</li>
 <li>Server收到客户端的连接请求后，在<code>authorized_keys</code>中匹配到Client事先保存的的公钥<code>pubKey</code>，并生成随机数<code>R</code>，用Client的公钥对该随机数进行加密得到<code>PubKey(R)</code>，然后将加密后的信息发送给Client。</li>
@@ -334,7 +334,7 @@
 <p><code>HostName</code>指定了要连接的服务器；</p>
 <p><code>User</code>指定了登录用户名，此处为<code>git</code>。</p>
 <h2 id="将SSH公钥添加到Github"><a href="#将SSH公钥添加到Github" class="headerlink" title="将SSH公钥添加到Github"></a>将SSH公钥添加到Github</h2><p>分别在两个Github账户的Settings - SSH and GPG keys页面添加SSH key。如下图所示，Key字段需要复制粘贴对应的<code>github_user1_rsa.pub</code>或者<code>github_user2_rsa.pub</code>公钥文件中的内容。</p>
-<p><img src="/source/images/what-is-ssh/github-ssh.png" alt="Add SSH key in Github"></p>
+<p><img src="/images/what-is-ssh/github-ssh.png" alt="Add SSH key in Github"></p>
 <h2 id="测试配置是否成功"><a href="#测试配置是否成功" class="headerlink" title="测试配置是否成功"></a>测试配置是否成功</h2><p>使用以下命令测试配置是否成功：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Address of github_user_1</span><br><span class="line">ssh -T git@github_user_1.github.com </span><br><span class="line"># 出现如下内容，表示使用github_user_1的身份成功链接Github</span><br><span class="line">Hi github_user_1! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br><span class="line"></span><br><span class="line"># Address of github_user_2</span><br><span class="line">ssh -T git@github_user_2.github.com </span><br><span class="line"># 出现如下内容，表示使用github_user_2的身份成功链接Github</span><br><span class="line">Hi github_user_2！ You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure>
 
