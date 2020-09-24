@@ -127,6 +127,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/23/nb-magic-html-js-en/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yudong, WANG">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fizzez">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/23/nb-magic-html-js-en/" class="post-title-link" itemprop="url">How to use Ployly.js in Jupyter Notebook</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-09-23 08:02:55" itemprop="dateCreated datePublished" datetime="2020-09-23T08:02:55+09:00">2020-09-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-24 10:35:57" itemprop="dateModified" datetime="2020-09-24T10:35:57+09:00">2020-09-24</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>本文中文版：</p>
+<p><a href="https://fizzez.github.io/2020/09/20/nb-magic-js/" target="_blank" rel="noopener">https://fizzez.github.io/2020/09/20/nb-magic-js/</a></p>
+</blockquote>
+<h1 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h1><p>Plotly is one of the best tools I experienced to visualize data in Jupyter Notebook. While I am making a simple APP with JavaScript and Plotly.js, I found the API names of Plotly.py and Plotly.js are quite similar to each other. This new find inspired me to use Plotly.js in Jupyter Notebook, in which way I think is more flexible (maybe).</p>
+<h1 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h1><p>Before start implementing anything, I searched for existing solutions. The method by HylaruCoder is one of the best (see Ref.[1]). According to HylaryCoder, RequireJS is a JS tool supported originally by Jupyter Notebook to dynamically load  a JS module, which enable us to load plotls.js from the <a href="https://plotly.com/javascript/getting-started/#plotlyjs-cdn" target="_blank" rel="noopener">CDN address provided officially by Plotly</a>.</p>
+<p>Okay the code to load Plotly.js is like the following. By the way, the magic command to tell Jupyter Notebook to execute a JS script is <code>%%javascript</code> or <code>%%js</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%%js</span><br><span class="line">requirejs.config(&#123;</span><br><span class="line">    paths: &#123;</span><br><span class="line">        plotly: <span class="string">'https://cdn.plot.ly/plotly-1.55.2.min.js?noext'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>Then we’ll need a <code>&lt;div&gt;</code> element in the HTML page for sure, to contain the plot. The element is appended with command <code>element.append()</code>. Given the example data and call Plotly.js API like the following code, we could have the example figure plotted.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">%%js</span><br><span class="line">element.append(<span class="string">'&lt;div id="plotly_graph" margin: 0 auto"&gt;&lt;/div&gt;'</span>);</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    requirejs([<span class="string">'plotly'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">Plotly</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> trace1 = &#123;</span><br><span class="line">          x: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">          y: [<span class="number">10</span>, <span class="number">15</span>, <span class="number">13</span>, <span class="number">17</span>],</span><br><span class="line">          mode: <span class="string">'markers'</span>,</span><br><span class="line">          type: <span class="string">'scatter'</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> trace2 = &#123;</span><br><span class="line">          x: [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>],</span><br><span class="line">          y: [<span class="number">16</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">9</span>],</span><br><span class="line">          mode: <span class="string">'lines'</span>,</span><br><span class="line">          type: <span class="string">'scatter'</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> trace3 = &#123;</span><br><span class="line">          x: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">          y: [<span class="number">12</span>, <span class="number">9</span>, <span class="number">15</span>, <span class="number">12</span>],</span><br><span class="line">          mode: <span class="string">'lines+markers'</span>,</span><br><span class="line">          type: <span class="string">'scatter'</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> data = [trace1, trace2, trace3];</span><br><span class="line"></span><br><span class="line">        Plotly.newPlot(<span class="built_in">document</span>.getElementById(<span class="string">'plotly_graph'</span>), data);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)(element);</span><br></pre></td></tr></table></figure>
+
+<p>Wait, an error was thrown when I tried to execute the 2 code cells separately. The error message was from RequireJS, saying <code>Failed to load resource: the server responded with a status of 404 (Not Found)</code>. Thanks to the answer from Ref.[2], the error disappeared after I merged the 2 code cells and execute. The plotted figure shoule like this:</p>
+<p><img src="/images/nb-magic-js/eg_graph.png" alt="Plotly.js in Jupyter Notebook"> </p>
+<p>In the example above, the example data for plotting is given in JS scripts. Then we’ll need to consider how to pass the processed data from Python cells to JS cells.</p>
+<p>The answer is to use JSON (via the HTML page). Here’s the Python script to pass the generated data to HTML page ( <code>window.plotly_json</code>):</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> IPython.core.display <span class="keyword">import</span> Javascript</span><br><span class="line"></span><br><span class="line">eval_x = np.linspace(<span class="number">0</span>, <span class="number">3</span> * np.pi, <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">trace_1 = &#123;<span class="string">'x'</span>: eval_x.tolist(), </span><br><span class="line">           <span class="string">'y'</span>: np.sin(eval_x).tolist(), </span><br><span class="line">           <span class="string">'mode'</span>: <span class="string">'lines+markers'</span>, </span><br><span class="line">           <span class="string">'type'</span>: <span class="string">'scatter'</span>,</span><br><span class="line">           <span class="string">'line'</span>: &#123;<span class="string">'width'</span>: <span class="number">3</span>&#125;, </span><br><span class="line">           <span class="string">'marker'</span>: &#123;<span class="string">'symbol'</span>: <span class="string">'cross'</span>&#125;&#125;</span><br><span class="line">trace_2 = &#123;<span class="string">'x'</span>: eval_x.tolist(), </span><br><span class="line">           <span class="string">'y'</span>: np.cos(eval_x).tolist(), </span><br><span class="line">           <span class="string">'mode'</span>: <span class="string">'lines+markers'</span>,</span><br><span class="line">           <span class="string">'type'</span>: <span class="string">'scatter'</span>,</span><br><span class="line">           <span class="string">'line'</span>: &#123;<span class="string">'width'</span>: <span class="number">1.5</span>&#125;, </span><br><span class="line">           <span class="string">'marker'</span>: &#123;<span class="string">'symbol'</span>: <span class="string">'circle'</span>&#125;&#125;</span><br><span class="line"></span><br><span class="line">plotly_json = &#123;<span class="string">'data'</span>: [trace_1, trace_2]&#125;</span><br><span class="line"></span><br><span class="line">Javascript(<span class="string">f"window.plotly_json = JSON.parse('<span class="subst">&#123;json.dumps(plotly_json, ensure_ascii=<span class="literal">False</span>)&#125;</span>')"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>So in this script, 2 plot traces in <code>dict</code> type are generated (naming of variables here are very like those in Plotly.js). Then serialize the dictionary to JSON format and pass to <code>window.plotly_json</code>. (Notice: ndarray object is not be able to be serialized to JSON, use <code>tolist()</code> to conver to list in advance.)</p>
+<p>Then the following script shows how to read the JSON data from HTML page and visualize with Plotly.js in the way introduced at the beginning.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">%%js</span><br><span class="line">element.append(<span class="string">'&lt;div id="plotly_graph_json" margin: 0 auto"&gt;&lt;/div&gt;'</span>);</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    requirejs([<span class="string">'plotly'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">Plotly</span>) </span>&#123;</span><br><span class="line">        Plotly.newPlot(<span class="built_in">document</span>.getElementById(<span class="string">'plotly_graph_json'</span>), plotly_json.data);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)(element);</span><br></pre></td></tr></table></figure>
+
+<p>The result will be like this:</p>
+<p><img src="/images/nb-magic-js/eg_graph_json.png" alt="Plotly.js in Jupyter Notebook"></p>
+<p>All the scripts and results are given together in this Jupyter Notebook:</p>
+<blockquote>
+<p><a href="https://github.com/Fizzez/playground/blob/master/python/notebook-magic-html-js.ipynb" target="_blank" rel="noopener">https://github.com/Fizzez/playground/blob/master/python/notebook-magic-html-js.ipynb</a></p>
+</blockquote>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ol>
+<li><a href="https://www.zhihu.com/people/twocucao" target="_blank" rel="noopener">如何优雅地在 IPython Notebook 中使用 ECharts - HylaruCoder</a></li>
+<li><a href="https://stackoverflow.com/questions/17026036/require-js-bug-random-failed-to-load-resource" target="_blank" rel="noopener">Require.js bug random Failed to load resource - Stack Overflow</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/20/nb-magic-js/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -158,7 +254,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-21 11:59:24" itemprop="dateModified" datetime="2020-09-21T11:59:24+09:00">2020-09-21</time>
+                <time title="Modified: 2020-09-24 10:35:09" itemprop="dateModified" datetime="2020-09-24T10:35:09+09:00">2020-09-24</time>
               </span>
 
           
@@ -172,20 +268,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p>之前一直在Jupyter Notebook里用Plotly作图，最近写JS开始接触了Plotly.js，发现Plotly的Python API和JS API在命名上有很多相同的地方（毕竟Plotly最后呈现的图表就是JS写的嘛）。于是就想着如果在Jupyter Notebook中能直接调用Plotly.js的API作图的话，灵活性似乎会大一点。。。ok 那就折腾一下。</p>
-<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>参考了HylaruCoder大佬写的参考[1]教程，决定使用RequireJS来动态引入并执行Plotly.js。</p>
+          <blockquote>
+<p>English Version of This Blog Post:</p>
+<p><a href="https://fizzez.github.io/2020/09/23/nb-magic-js-en/" target="_blank" rel="noopener">https://fizzez.github.io/2020/09/23/nb-magic-js-en/</a></p>
+</blockquote>
+<h1 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h1><p>之前一直在Jupyter Notebook里用Plotly作图，最近写JS开始接触了Plotly.js，发现Plotly的Python API和JS API在命名上有很多相同的地方（毕竟Plotly最后呈现的图表就是JS写的嘛）。于是就想着如果在Jupyter Notebook中能直接调用Plotly.js的API作图的话，灵活性似乎会大一点。。。ok 那就折腾一下。</p>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>参考了HylaruCoder写的参考[1]教程，决定使用RequireJS来动态引入并执行Plotly.js。</p>
 <p>首先，在Jupyter Notebook中执行JS的Magic command是<code>%%javascript</code>或者<code>%%js</code>。</p>
 <p>然后问题就是怎样把Plotly.js引入，搞一个HTML div元素，并且把做好的图写进去了。</p>
 <p>引入Plotls.js使用了这样的代码，把plotly的cdn地址扔进去：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%%js</span><br><span class="line">requirejs.config(&#123;</span><br><span class="line">    paths: &#123;</span><br><span class="line">        plotly: <span class="string">'https://cdn.plot.ly/plotly-1.55.2.min.js?noext'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 <p>plotly的cdn地址可以在<a href="https://plotly.com/javascript/getting-started/#plotlyjs-cdn" target="_blank" rel="noopener">官网</a>查到。</p>
-<p>然后通过<code>element.append()</code>添加一个div元素，使用引入的Plotly.js包做一个示例图：</p>
+<p>然后通过<code>element.append()</code>添加一个<code>&lt;div&gt;</code>元素，使用引入的Plotly.js包做一个示例图：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">%%js</span><br><span class="line">element.append(<span class="string">'&lt;div id="plotly_graph" margin: 0 auto"&gt;&lt;/div&gt;'</span>);</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    requirejs([<span class="string">'plotly'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">Plotly</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> trace1 = &#123;</span><br><span class="line">          x: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">          y: [<span class="number">10</span>, <span class="number">15</span>, <span class="number">13</span>, <span class="number">17</span>],</span><br><span class="line">          mode: <span class="string">'markers'</span>,</span><br><span class="line">          type: <span class="string">'scatter'</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> trace2 = &#123;</span><br><span class="line">          x: [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>],</span><br><span class="line">          y: [<span class="number">16</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">9</span>],</span><br><span class="line">          mode: <span class="string">'lines'</span>,</span><br><span class="line">          type: <span class="string">'scatter'</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> trace3 = &#123;</span><br><span class="line">          x: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">          y: [<span class="number">12</span>, <span class="number">9</span>, <span class="number">15</span>, <span class="number">12</span>],</span><br><span class="line">          mode: <span class="string">'lines+markers'</span>,</span><br><span class="line">          type: <span class="string">'scatter'</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> data = [trace1, trace2, trace3];</span><br><span class="line"></span><br><span class="line">        Plotly.newPlot(<span class="built_in">document</span>.getElementById(<span class="string">'plotly_graph'</span>), data);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)(element);</span><br></pre></td></tr></table></figure>
 
-<p>按照HylaruCoder大佬的方法，我把引入Plotls.js和使用Plotls.js分成了两个不同的Notebook Cell执行，但是一直显示空白div。通过查看JS console发现RequireJS一直在报这样的错误<code>Failed to load resource: the server responded with a status of 404 (Not Found)</code>。（满脸问号），幸好参考[2]建议我们把引入（<code>require.config</code>）和使用（<code>require([&#39;mymodule&#39;], function( mymodule )</code>）放在同一个Notebook Cell中使用，然后就成功了。图长这样：</p>
+<p>按照HylaruCoder的方法，我把引入Plotls.js和使用Plotls.js分成了两个不同的Notebook Cell执行，但是一直显示空白div。通过查看JS console发现RequireJS一直在报这样的错误<code>Failed to load resource: the server responded with a status of 404 (Not Found)</code>。（满脸问号），幸好参考[2]建议我们把引入（<code>require.config</code>）和使用（<code>require([&#39;mymodule&#39;], function( mymodule )</code>）放在同一个Notebook Cell中使用，然后就成功了。图长这样：</p>
 <p><img src="/images/nb-magic-js/eg_graph.png" alt="Plotly.js in Jupyter Notebook"></p>
-<p>上面的例子里，图标的数据固定的写在了JS中，接下来需要思考的就是怎么把Python的结果数据传给JS了。-&gt; 使用JSON。先上代码：</p>
+<p>上面的例子里，图表的数据固定的写在了JS中，接下来需要思考的就是怎么把Python的结果数据传给JS了。-&gt; 使用JSON。先上代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> IPython.core.display <span class="keyword">import</span> Javascript</span><br><span class="line"></span><br><span class="line">eval_x = np.linspace(<span class="number">0</span>, <span class="number">3</span> * np.pi, <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">trace_1 = &#123;<span class="string">'x'</span>: eval_x.tolist(), </span><br><span class="line">           <span class="string">'y'</span>: np.sin(eval_x).tolist(), </span><br><span class="line">           <span class="string">'mode'</span>: <span class="string">'lines+markers'</span>, </span><br><span class="line">           <span class="string">'type'</span>: <span class="string">'scatter'</span>,</span><br><span class="line">           <span class="string">'line'</span>: &#123;<span class="string">'width'</span>: <span class="number">3</span>&#125;, </span><br><span class="line">           <span class="string">'marker'</span>: &#123;<span class="string">'symbol'</span>: <span class="string">'cross'</span>&#125;&#125;</span><br><span class="line">trace_2 = &#123;<span class="string">'x'</span>: eval_x.tolist(), </span><br><span class="line">           <span class="string">'y'</span>: np.cos(eval_x).tolist(), </span><br><span class="line">           <span class="string">'mode'</span>: <span class="string">'lines+markers'</span>,</span><br><span class="line">           <span class="string">'type'</span>: <span class="string">'scatter'</span>,</span><br><span class="line">           <span class="string">'line'</span>: &#123;<span class="string">'width'</span>: <span class="number">1.5</span>&#125;, </span><br><span class="line">           <span class="string">'marker'</span>: &#123;<span class="string">'symbol'</span>: <span class="string">'circle'</span>&#125;&#125;</span><br><span class="line"></span><br><span class="line">plotly_json = &#123;<span class="string">'data'</span>: [trace_1, trace_2]&#125;</span><br><span class="line"></span><br><span class="line">Javascript(<span class="string">f"window.plotly_json = JSON.parse('<span class="subst">&#123;json.dumps(plotly_json, ensure_ascii=<span class="literal">False</span>)&#125;</span>')"</span>)</span><br></pre></td></tr></table></figure>
 
 <p>Ok首先生成了两个<code>dict</code>格式的trace（这结构和Plotly.py没什么两样。。），通过<code>json.dumps</code>把<code>dict</code>搞成JSON后传给了<code>window.plotly_json</code>。（Notice: <code>ndarray</code>对象必须转成<code>list</code>才能被序列化为JSON）</p>
@@ -239,7 +339,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/09/02/when-to-use-assert/" class="post-title-link" itemprop="url">when-to-use-assert</a>
+            <a href="/2020/09/02/when-to-use-assert/" class="post-title-link" itemprop="url">Python中Assert的使用</a>
         </h2>
 
         <div class="post-meta">
@@ -256,7 +356,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-21 12:08:40" itemprop="dateModified" datetime="2020-09-21T12:08:40+09:00">2020-09-21</time>
+                <time title="Modified: 2020-09-24 09:38:39" itemprop="dateModified" datetime="2020-09-24T09:38:39+09:00">2020-09-24</time>
               </span>
 
           
@@ -353,71 +453,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/28/python-args-kwargs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Yudong, WANG">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fizzez">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/28/python-args-kwargs/" class="post-title-link" itemprop="url">Python args and kwargs usage</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-08-28 08:35:58" itemprop="dateCreated datePublished" datetime="2020-08-28T08:35:58+09:00">2020-08-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-14 09:24:01" itemprop="dateModified" datetime="2020-09-14T09:24:01+09:00">2020-09-14</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a href="https://www.jianshu.com/p/2aaed96369bd" target="_blank" rel="noopener">https://www.jianshu.com/p/2aaed96369bd</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/28/what-is-ssh/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -449,7 +484,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-16 13:05:00" itemprop="dateModified" datetime="2020-09-16T13:05:00+09:00">2020-09-16</time>
+                <time title="Modified: 2020-09-24 10:35:22" itemprop="dateModified" datetime="2020-09-24T10:35:22+09:00">2020-09-24</time>
               </span>
 
           
@@ -518,11 +553,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config user.name github_user1</span><br><span class="line">git config user.email your_email_1@example.com</span><br></pre></td></tr></table></figure>
 
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
-<li><a href="https://zh.wikipedia.org/zh-cn/Secure_Shell" target="_blank" rel="noopener">Secure Shell - ‘Wikipedia’</a></li>
-<li><a href="https://www.jianshu.com/p/33461b619d53" target="_blank" rel="noopener">图解SSH原理-‘TopGun_Viper’</a></li>
-<li><a href="https://www.jianshu.com/p/1246cfdbe460" target="_blank" rel="noopener">SSH key的介绍与在Git中的使用 - ‘faner’</a></li>
-<li><a href="https://www.jianshu.com/p/45201d18cc7c" target="_blank" rel="noopener">~/.ssh/config文件的使用 - ‘阳台的晾衣架’</a></li>
-<li><a href="https://blog.csdn.net/onTheRoadToMine/article/details/79029331" target="_blank" rel="noopener">Git多用户，不同项目配置不同Git账号 - ‘Lange0x0’</a></li>
+<li><a href="https://zh.wikipedia.org/zh-cn/Secure_Shell" target="_blank" rel="noopener">Secure Shell - Wikipedia</a></li>
+<li><a href="https://www.jianshu.com/p/33461b619d53" target="_blank" rel="noopener">图解SSH原理 - TopGun_Viper</a></li>
+<li><a href="https://www.jianshu.com/p/1246cfdbe460" target="_blank" rel="noopener">SSH key的介绍与在Git中的使用 - faner</a></li>
+<li><a href="https://www.jianshu.com/p/45201d18cc7c" target="_blank" rel="noopener">~/.ssh/config文件的使用 - 阳台的晾衣架</a></li>
+<li><a href="https://blog.csdn.net/onTheRoadToMine/article/details/79029331" target="_blank" rel="noopener">Git多用户，不同项目配置不同Git账号 - Lange0x0</a></li>
 </ol>
 
       
@@ -574,7 +609,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-09-22 09:04:29" itemprop="dateModified" datetime="2020-09-22T09:04:29+09:00">2020-09-22</time>
+                <time title="Modified: 2020-09-24 10:35:18" itemprop="dateModified" datetime="2020-09-24T10:35:18+09:00">2020-09-24</time>
               </span>
 
           
