@@ -1,5 +1,5 @@
 ---
-title: 怎样在Jupyter Notebook中使用Plotly.js
+title: "怎样在Jupyter Notebook中使用Plotly.js"
 date: 2020-09-20 15:16:10
 tags:
 - Python
@@ -9,13 +9,17 @@ tags:
 - Chinese
 ---
 
+> English Version of This Blog Post:
+>
+> https://fizzez.github.io/2020/09/23/nb-magic-js-en/
+
 # 描述
 
 之前一直在Jupyter Notebook里用Plotly作图，最近写JS开始接触了Plotly.js，发现Plotly的Python API和JS API在命名上有很多相同的地方（毕竟Plotly最后呈现的图表就是JS写的嘛）。于是就想着如果在Jupyter Notebook中能直接调用Plotly.js的API作图的话，灵活性似乎会大一点。。。ok 那就折腾一下。
 
 # 方法
 
-参考了HylaruCoder大佬写的参考[1]教程，决定使用RequireJS来动态引入并执行Plotly.js。
+参考了HylaruCoder写的参考[1]教程，决定使用RequireJS来动态引入并执行Plotly.js。
 
 首先，在Jupyter Notebook中执行JS的Magic command是`%%javascript`或者`%%js`。
 
@@ -34,7 +38,7 @@ requirejs.config({
 
 plotly的cdn地址可以在[官网](https://plotly.com/javascript/getting-started/#plotlyjs-cdn)查到。
 
-然后通过`element.append()`添加一个div元素，使用引入的Plotly.js包做一个示例图：
+然后通过`element.append()`添加一个`<div>`元素，使用引入的Plotly.js包做一个示例图：
 
 ```js
 %%js
@@ -69,13 +73,13 @@ element.append('<div id="plotly_graph" margin: 0 auto"></div>');
 })(element);
 ```
 
-按照HylaruCoder大佬的方法，我把引入Plotls.js和使用Plotls.js分成了两个不同的Notebook Cell执行，但是一直显示空白div。通过查看JS console发现RequireJS一直在报这样的错误`Failed to load resource: the server responded with a status of 404 (Not Found)`。（满脸问号），幸好参考[2]建议我们把引入（`require.config`）和使用（`require(['mymodule'], function( mymodule )`）放在同一个Notebook Cell中使用，然后就成功了。图长这样：
+按照HylaruCoder的方法，我把引入Plotls.js和使用Plotls.js分成了两个不同的Notebook Cell执行，但是一直显示空白div。通过查看JS console发现RequireJS一直在报这样的错误`Failed to load resource: the server responded with a status of 404 (Not Found)`。（满脸问号），幸好参考[2]建议我们把引入（`require.config`）和使用（`require(['mymodule'], function( mymodule )`）放在同一个Notebook Cell中使用，然后就成功了。图长这样：
 
 ![Plotly.js in Jupyter Notebook](/images/nb-magic-js/eg_graph.png)
 
 
 
-上面的例子里，图标的数据固定的写在了JS中，接下来需要思考的就是怎么把Python的结果数据传给JS了。-> 使用JSON。先上代码：
+上面的例子里，图表的数据固定的写在了JS中，接下来需要思考的就是怎么把Python的结果数据传给JS了。-> 使用JSON。先上代码：
 
 ```python
 import json
@@ -135,4 +139,3 @@ element.append('<div id="plotly_graph_json" margin: 0 auto"></div>');
 1. [如何优雅地在 IPython Notebook 中使用 ECharts - HylaruCoder](https://www.zhihu.com/people/twocucao)
 
 2. [Require.js bug random Failed to load resource - Stack Overflow](https://stackoverflow.com/questions/17026036/require-js-bug-random-failed-to-load-resource)
-

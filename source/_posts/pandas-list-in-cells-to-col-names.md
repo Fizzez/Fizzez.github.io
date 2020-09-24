@@ -91,4 +91,3 @@ The result should look like the following. The slash-separated characters are fi
 A runnable Jupyter Notebook that contains the example above.
 
 > https://github.com/Fizzez/playground/blob/master/python/pandas-list-in-cells-to-col-names.ipynb
-

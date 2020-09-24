@@ -174,9 +174,8 @@ git config user.email your_email_1@example.com
 
 # 参考
 
-1. [Secure Shell - 'Wikipedia'](https://zh.wikipedia.org/zh-cn/Secure_Shell)
-2. [图解SSH原理-'TopGun_Viper'](https://www.jianshu.com/p/33461b619d53)
-3. [SSH key的介绍与在Git中的使用 - 'faner'](https://www.jianshu.com/p/1246cfdbe460)
-4. [~/.ssh/config文件的使用 - '阳台的晾衣架'](https://www.jianshu.com/p/45201d18cc7c)
-5. [Git多用户，不同项目配置不同Git账号 - 'Lange0x0'](https://blog.csdn.net/onTheRoadToMine/article/details/79029331)
-
+1. [Secure Shell - Wikipedia](https://zh.wikipedia.org/zh-cn/Secure_Shell)
+2. [图解SSH原理 - TopGun_Viper](https://www.jianshu.com/p/33461b619d53)
+3. [SSH key的介绍与在Git中的使用 - faner](https://www.jianshu.com/p/1246cfdbe460)
+4. [~/.ssh/config文件的使用 - 阳台的晾衣架](https://www.jianshu.com/p/45201d18cc7c)
+5. [Git多用户，不同项目配置不同Git账号 - Lange0x0](https://blog.csdn.net/onTheRoadToMine/article/details/79029331)
