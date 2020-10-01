@@ -21,7 +21,7 @@
   </script>
 
   <meta name="description" content="SSH原理Secure Shell (SSH)，是一种加密的网络传输协议，最常见的用途是登录到远程电脑中执行命令。SSH使用客户端-服务器模型，标准端口为22。SSH以非对称加密实现身份验证（关于对称以及非对称加密， 详见参考[2]）。从客户端来看，SSH提供两种级别的安全验证：  基于密码的安全验证：使用自动生成的“公钥-私钥对”来简单的加密网络链接，随后使用密码认证进行登录。所有传输的数据都会">
-<meta name="keywords" content="System,Git,Chinese">
+<meta name="keywords" content="Chinese,System,Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SSH原理和Github多用户设置">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;08&#x2F;28&#x2F;what-is-ssh&#x2F;index.html">
@@ -98,6 +98,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="Toggle navigation bar">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
@@ -118,6 +121,25 @@
 
 
 
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
 
 
 
@@ -258,9 +280,9 @@
 
       <footer class="post-footer">
           <div class="post-tags">
+              <a href="/tags/Chinese/" rel="tag"># Chinese</a>
               <a href="/tags/System/" rel="tag"># System</a>
               <a href="/tags/Git/" rel="tag"># Git</a>
-              <a href="/tags/Chinese/" rel="tag"># Chinese</a>
           </div>
 
         
@@ -346,7 +368,8 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
+          <a href="/archives/">
+        
           <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
