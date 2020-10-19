@@ -20,14 +20,18 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Fizzez">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;archives&#x2F;2019&#x2F;09&#x2F;index.html">
+  <meta name="description" content="What is the “Keng”Well. “Keng” is actually the Pinyin of the Chinese character “坑”, meaning somgthing may f**k you up. Here the “Keng” stands for the pitfall better to be aware of when using PyTorch i">
+<meta name="keywords" content="Python,PyTorch,ML,English">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The &quot;Keng&quot;s in PyTorch">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;10&#x2F;19&#x2F;pytorch-keng&#x2F;index.html">
 <meta property="og:site_name" content="Fizzez">
+<meta property="og:description" content="What is the “Keng”Well. “Keng” is actually the Pinyin of the Chinese character “坑”, meaning somgthing may f**k you up. Here the “Keng” stands for the pitfall better to be aware of when using PyTorch i">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-10-19T11:24:22.178Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/archives/2019/09/">
+<link rel="canonical" href="http://yoursite.com/2020/10/19/pytorch-keng/">
 
 
 <script id="page-configurations">
@@ -35,12 +39,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Archive | Fizzez</title>
+  <title>The "Keng"s in PyTorch | Fizzez</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-78K315RN6Z"></script>
     <script>
@@ -156,50 +160,88 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">Um..! 6 posts in total. Keep on posting.</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/19/pytorch-keng/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yudong, WANG">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fizzez">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          The "Keng"s in PyTorch
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-10-19 19:43:32 / Modified: 20:24:22" itemprop="dateCreated datePublished" datetime="2020-10-19T19:43:32+09:00">2020-10-19</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2019</span>
+        <h1 id="What-is-the-“Keng”"><a href="#What-is-the-“Keng”" class="headerlink" title="What is the “Keng”"></a>What is the “Keng”</h1><p>Well. “Keng” is actually the Pinyin of the Chinese character “坑”, meaning somgthing may f**k you up. Here the “Keng” stands for the pitfall better to be aware of when using PyTorch in several specific situations.</p>
+<p>I feel like to write something about ML in this blog, but do not actually have any topic at hand. “Keng” series will be a good start to summarize my experience in ML. Hope these experiences could help you :-).</p>
+<h1 id="Keng-1"><a href="#Keng-1" class="headerlink" title="Keng - 1"></a>Keng - 1</h1><h2 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h2><p>Generally, while using  <code>torch.nn.parallel.DistributedDataParallel</code> , the code runs on multiple GPUs independently, meaning one process per GPU. The memory usage of each GPU should be close. </p>
+<p>But I once found that a part of memory of gpu 0 was occupied by processes running on gpu 1-3 and caused <code>CUDA out of memory</code> error.</p>
+<h2 id="Cause"><a href="#Cause" class="headerlink" title="Cause"></a>Cause</h2><p>When loading a pretrained model with <code>torch.load()</code>, it put data to gpu 0.</p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>An easy solution is to remap the data to cpu with <code>torch.load(&#39;checkpoint.pth&#39;, map_location=torch.device(&#39;cpu&#39;))</code></p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-09-12T17:21:08+09:00"
-              content="2019-09-12">
-          09-12
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+              <a href="/tags/PyTorch/" rel="tag"># PyTorch</a>
+              <a href="/tags/ML/" rel="tag"># ML</a>
+              <a href="/tags/English/" rel="tag"># English</a>
+          </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2019/09/12/pandas-list-in-cells-to-col-names/" itemprop="url">
-            <span itemprop="name">Pandas: Conver slash-separated string contents to column names with default value</span>
-          </a>
-      </div>
+        
 
-    </header>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/23/nb-magic-html-js-en/" rel="prev" title="How to use Ployly.js in Jupyter Notebook">
+      <i class="fa fa-chevron-left"></i> How to use Ployly.js in Jupyter Notebook
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
-
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
@@ -252,6 +294,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#What-is-the-“Keng”"><span class="nav-number">1.</span> <span class="nav-text">What is the “Keng”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Keng-1"><span class="nav-number">2.</span> <span class="nav-text">Keng - 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Problem"><span class="nav-number">2.1.</span> <span class="nav-text">Problem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cause"><span class="nav-number">2.2.</span> <span class="nav-text">Cause</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Solution"><span class="nav-number">2.3.</span> <span class="nav-text">Solution</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
