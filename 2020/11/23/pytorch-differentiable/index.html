@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="Fizzez">
 <meta property="og:description" content="DescriptionI was wondering how PyTorch deals with those mathematically non-differentiable loss function for these days. So I have a brief summary here to share my findings. TL;DR:Basically, all the op">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-11-30T11:34:02.877Z">
+<meta property="og:updated_time" content="2020-11-30T11:47:22.768Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://yoursite.com/2020/11/23/pytorch-differentiable/">
@@ -197,7 +197,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-30 20:34:02" itemprop="dateModified" datetime="2020-11-30T20:34:02+09:00">2020-11-30</time>
+                <time title="Modified: 2020-11-30 20:47:22" itemprop="dateModified" datetime="2020-11-30T20:47:22+09:00">2020-11-30</time>
               </span>
 
           
@@ -214,12 +214,18 @@
         <h1 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h1><p>I was wondering how PyTorch deals with those mathematically non-differentiable loss function for these days. So I have a brief summary here to share my findings.</p>
 <h2 id="TL-DR"><a href="#TL-DR" class="headerlink" title="TL;DR:"></a>TL;DR:</h2><p>Basically, all the operations provided by PyTorch are <strong>‘differentiable’</strong>. As for mathematically non-differentiable operations such as relu, argmax, mask_select and tensor slice, the elements at which gradients are not able to be calculated are set to gradient 0.</p>
 <h1 id="Investigation"><a href="#Investigation" class="headerlink" title="Investigation"></a>Investigation</h1><h2 id="Mathematically-non-differentiable-situation"><a href="#Mathematically-non-differentiable-situation" class="headerlink" title="Mathematically non-differentiable situation"></a>Mathematically non-differentiable situation</h2><p>For mathematically non-differentiable operations such as relu, argmax, mask_select and tensor slice, the elements at which gradients are not able to be calculated are set to gradient 0.</p>
-<p>Take absolute function for example:<br>$$<br>abs(x)=\left{<br>\begin{aligned}<br>x, x &gt; 0 \<br>0, x = 0 \<br>-x, x &lt; 0<br>\end{aligned}<br>\right.<br>$$<br>Absolute function is not differentiable at $x=0$, mathematically, but PyTorch set the gradient at this point to be 0. Here is a test:</p>
+<p>Take absolute function for example:</p>
+<script type="math/tex; mode=display">
+abs(x)=\left\{
+\begin{aligned}
+x, x > 0 \\
+0, x = 0 \\
+-x, x < 0
+\end{aligned}
+\right.</script><p>Absolute function is not differentiable at $x=0$, mathematically, but PyTorch set the gradient at this point to be 0. Here is a test:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">11</span>):</span><br><span class="line">  x = torch.tensor([i<span class="number">-5</span>], dtype=float, requires_grad=<span class="literal">True</span>)</span><br><span class="line">  y = torch.abs(x)</span><br><span class="line">  y.backward()</span><br><span class="line">  print(x.grad)</span><br></pre></td></tr></table></figure>
-
 <p>The output will be:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">tensor([-1.], dtype=torch.float64)</span><br><span class="line">tensor([-1.], dtype=torch.float64)</span><br><span class="line">tensor([-1.], dtype=torch.float64)</span><br><span class="line">tensor([-1.], dtype=torch.float64)</span><br><span class="line">tensor([-1.], dtype=torch.float64)</span><br><span class="line">tensor([0.], dtype=torch.float64)</span><br><span class="line">tensor([1.], dtype=torch.float64)</span><br><span class="line">tensor([1.], dtype=torch.float64)</span><br><span class="line">tensor([1.], dtype=torch.float64)</span><br><span class="line">tensor([1.], dtype=torch.float64)</span><br><span class="line">tensor([1.], dtype=torch.float64)</span><br></pre></td></tr></table></figure>
-
 <p>Like <a href="https://discuss.pytorch.org/t/non-differentiable-loss-function-in-cnn/67200/8" target="_blank" rel="noopener">what Mertens said in this answer</a>, </p>
 <blockquote>
 <p>This function isn’t analytically differentiable. However, at every point except 0, it is. In practice, for the purpose of gradient descent, it works well enough to treat the function as if it were differentiable. You’ll rarely be computing the gradient at precisely 0, and even if you do, it’s sufficient to handle things via a special case.</p>
@@ -407,6 +413,59 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

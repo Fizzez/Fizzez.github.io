@@ -21,7 +21,7 @@
   </script>
 
   <meta name="description" content="本文中文版： https:&#x2F;&#x2F;fizzez.github.io&#x2F;2020&#x2F;09&#x2F;20&#x2F;nb-magic-js&#x2F;  DescriptionPlotly is one of the best tools I experienced to visualize data in Jupyter Notebook. While I am making a simple APP with JavaScript">
-<meta name="keywords" content="Python,English,JavaScript,Notebook,Visualization">
+<meta name="keywords" content="Python,JavaScript,Notebook,Visualization,English">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How to use Ployly.js in Jupyter Notebook">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;09&#x2F;23&#x2F;nb-magic-html-js-en&#x2F;index.html">
@@ -222,20 +222,16 @@
 <h1 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h1><p>Before start implementing anything, I searched for existing solutions. The method by HylaruCoder is one of the best (see Ref.[1]). According to HylaryCoder, RequireJS is a JS tool supported originally by Jupyter Notebook to dynamically load  a JS module, which enable us to load plotls.js from the <a href="https://plotly.com/javascript/getting-started/#plotlyjs-cdn" target="_blank" rel="noopener">CDN address provided officially by Plotly</a>.</p>
 <p>Okay the code to load Plotly.js is like the following. By the way, the magic command to tell Jupyter Notebook to execute a JS script is <code>%%javascript</code> or <code>%%js</code>:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">%%js</span><br><span class="line">requirejs.config(&#123;</span><br><span class="line">    paths: &#123;</span><br><span class="line">        plotly: <span class="string">'https://cdn.plot.ly/plotly-1.55.2.min.js?noext'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
 <p>Then we’ll need a <code>&lt;div&gt;</code> element in the HTML page for sure, to contain the plot. The element is appended with command <code>element.append()</code>. Given the example data and call Plotly.js API like the following code, we could have the example figure plotted.</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">%%js</span><br><span class="line">element.append(<span class="string">'&lt;div id="plotly_graph" margin: 0 auto"&gt;&lt;/div&gt;'</span>);</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    requirejs([<span class="string">'plotly'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">Plotly</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> trace1 = &#123;</span><br><span class="line">          x: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">          y: [<span class="number">10</span>, <span class="number">15</span>, <span class="number">13</span>, <span class="number">17</span>],</span><br><span class="line">          mode: <span class="string">'markers'</span>,</span><br><span class="line">          type: <span class="string">'scatter'</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> trace2 = &#123;</span><br><span class="line">          x: [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>],</span><br><span class="line">          y: [<span class="number">16</span>, <span class="number">5</span>, <span class="number">11</span>, <span class="number">9</span>],</span><br><span class="line">          mode: <span class="string">'lines'</span>,</span><br><span class="line">          type: <span class="string">'scatter'</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> trace3 = &#123;</span><br><span class="line">          x: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">          y: [<span class="number">12</span>, <span class="number">9</span>, <span class="number">15</span>, <span class="number">12</span>],</span><br><span class="line">          mode: <span class="string">'lines+markers'</span>,</span><br><span class="line">          type: <span class="string">'scatter'</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> data = [trace1, trace2, trace3];</span><br><span class="line"></span><br><span class="line">        Plotly.newPlot(<span class="built_in">document</span>.getElementById(<span class="string">'plotly_graph'</span>), data);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)(element);</span><br></pre></td></tr></table></figure>
-
 <p>Wait, an error was thrown when I tried to execute the 2 code cells separately. The error message was from RequireJS, saying <code>Failed to load resource: the server responded with a status of 404 (Not Found)</code>. Thanks to the answer from Ref.[2], the error disappeared after I merged the 2 code cells and execute. The plotted figure shoule like this:</p>
 <p><img src="/images/nb-magic-js/eg_graph.png" alt="Plotly.js in Jupyter Notebook"> </p>
 <p>In the example above, the example data for plotting is given in JS scripts. Then we’ll need to consider how to pass the processed data from Python cells to JS cells.</p>
 <p>The answer is to use JSON (via the HTML page). Here’s the Python script to pass the generated data to HTML page ( <code>window.plotly_json</code>):</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> IPython.core.display <span class="keyword">import</span> Javascript</span><br><span class="line"></span><br><span class="line">eval_x = np.linspace(<span class="number">0</span>, <span class="number">3</span> * np.pi, <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">trace_1 = &#123;<span class="string">'x'</span>: eval_x.tolist(), </span><br><span class="line">           <span class="string">'y'</span>: np.sin(eval_x).tolist(), </span><br><span class="line">           <span class="string">'mode'</span>: <span class="string">'lines+markers'</span>, </span><br><span class="line">           <span class="string">'type'</span>: <span class="string">'scatter'</span>,</span><br><span class="line">           <span class="string">'line'</span>: &#123;<span class="string">'width'</span>: <span class="number">3</span>&#125;, </span><br><span class="line">           <span class="string">'marker'</span>: &#123;<span class="string">'symbol'</span>: <span class="string">'cross'</span>&#125;&#125;</span><br><span class="line">trace_2 = &#123;<span class="string">'x'</span>: eval_x.tolist(), </span><br><span class="line">           <span class="string">'y'</span>: np.cos(eval_x).tolist(), </span><br><span class="line">           <span class="string">'mode'</span>: <span class="string">'lines+markers'</span>,</span><br><span class="line">           <span class="string">'type'</span>: <span class="string">'scatter'</span>,</span><br><span class="line">           <span class="string">'line'</span>: &#123;<span class="string">'width'</span>: <span class="number">1.5</span>&#125;, </span><br><span class="line">           <span class="string">'marker'</span>: &#123;<span class="string">'symbol'</span>: <span class="string">'circle'</span>&#125;&#125;</span><br><span class="line"></span><br><span class="line">plotly_json = &#123;<span class="string">'data'</span>: [trace_1, trace_2]&#125;</span><br><span class="line"></span><br><span class="line">Javascript(<span class="string">f"window.plotly_json = JSON.parse('<span class="subst">&#123;json.dumps(plotly_json, ensure_ascii=<span class="literal">False</span>)&#125;</span>')"</span>)</span><br></pre></td></tr></table></figure>
-
 <p>So in this script, 2 plot traces in <code>dict</code> type are generated (naming of variables here are very like those in Plotly.js). Then serialize the dictionary to JSON format and pass to <code>window.plotly_json</code>. (Notice: ndarray object is not be able to be serialized to JSON, use <code>tolist()</code> to conver to list in advance.)</p>
 <p>Then the following script shows how to read the JSON data from HTML page and visualize with Plotly.js in the way introduced at the beginning.</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">%%js</span><br><span class="line">element.append(<span class="string">'&lt;div id="plotly_graph_json" margin: 0 auto"&gt;&lt;/div&gt;'</span>);</span><br><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">element</span>) </span>&#123;</span><br><span class="line">    requirejs([<span class="string">'plotly'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">Plotly</span>) </span>&#123;</span><br><span class="line">        Plotly.newPlot(<span class="built_in">document</span>.getElementById(<span class="string">'plotly_graph_json'</span>), plotly_json.data);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)(element);</span><br></pre></td></tr></table></figure>
-
 <p>The result will be like this:</p>
 <p><img src="/images/nb-magic-js/eg_graph_json.png" alt="Plotly.js in Jupyter Notebook"></p>
 <p>All the scripts and results are given together in this Jupyter Notebook:</p>
@@ -256,10 +252,10 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/Python/" rel="tag"># Python</a>
-              <a href="/tags/English/" rel="tag"># English</a>
               <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
               <a href="/tags/Notebook/" rel="tag"># Notebook</a>
               <a href="/tags/Visualization/" rel="tag"># Visualization</a>
+              <a href="/tags/English/" rel="tag"># English</a>
           </div>
 
         
@@ -432,6 +428,59 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

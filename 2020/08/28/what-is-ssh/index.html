@@ -238,17 +238,13 @@
 </ol>
 <h1 id="SSH实践：Github多用户设置（macOS）"><a href="#SSH实践：Github多用户设置（macOS）" class="headerlink" title="SSH实践：Github多用户设置（macOS）"></a>SSH实践：Github多用户设置（macOS）</h1><h2 id="生成密钥"><a href="#生成密钥" class="headerlink" title="生成密钥"></a>生成密钥</h2><p><code>ssh-keygen</code>命令用于为ssh生成，管理和转换认证密钥。该命令有几个常用选项，<code>-t</code>用于指定加密方式，可选<code>dsa | ecdsa | ed25519 | rsa</code>， 一般为<code>rsa</code>；<code>-C</code>用于指定注释，通常使用自己的邮件名作为注释；<code>-b</code>用于制定密钥长度，对于RSA加密方式，最低长度为1024（可被破解），默认长度为2048，建议为2048或4096。示例如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &quot;your_email@example.com&quot; -b 2048</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file in which to save the key (/home/username/.ssh/id_rsa): /home/username/.ssh/GitHub_rsa</span><br><span class="line">Enter passphrase (empty for no passphrase): </span><br><span class="line">Enter same passphrase again: </span><br><span class="line">Your identification has been saved in /home/username/.ssh/GitHub_rsa.</span><br><span class="line">Your public key has been saved in /home/username/.ssh/GitHub_rsa.pub.</span><br><span class="line">The key fingerprint is:</span><br><span class="line">SHA256:GcK7ORvFzH6fzA7qPmnzBr1DOWho5cCVgIpLkh6VGb8 Fan@outlook.com</span><br><span class="line">The key&apos;s randomart image is:</span><br><span class="line">+---[RSA 2048]----+</span><br><span class="line">|   .+... .       |</span><br><span class="line">|   +o.  o        |</span><br><span class="line">| o.. oo..        |</span><br><span class="line">|+o.   +*.o       |</span><br><span class="line">|+..  E.=So .     |</span><br><span class="line">|..    o== =      |</span><br><span class="line">|     .=..+oo     |</span><br><span class="line">|       +=o+= .   |</span><br><span class="line">|      .++=.o*    |</span><br><span class="line">+----[SHA256]-----+</span><br></pre></td></tr></table></figure>
-
 <p>公钥是一串很长的字符，为了便于肉眼比对和识别，所以有了指纹这东西；指纹位数短，更便于识别且与公钥一一对应。</p>
 <p>指纹的用处之一是在使用SSH第一次连接到某主机时，会返回该主机使用的公钥的指纹让你识别。示例：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The authenticity of host &apos;hostname&apos; can&apos;t be established.</span><br><span class="line">RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.</span><br><span class="line">Are you sure you want to continue connecting (yes/no)?</span><br></pre></td></tr></table></figure>
-
 <h2 id="在本机配置多个Github账户"><a href="#在本机配置多个Github账户" class="headerlink" title="在本机配置多个Github账户"></a>在本机配置多个Github账户</h2><p>使用以上命令生成两个ssh公钥-密钥对，保存为不同的名称，例如<code>github_user1_rsa</code>和<code>github_user2_rsa</code>。则会生成四个文件如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-rw-------    1 username  staff   1.8K Oct 28  2019 github_user1_rsa</span><br><span class="line">-rw-r--r--    1 username  staff   407B Oct 28  2019 github_user1_rsa.pub</span><br><span class="line">-rw-------    1 username  staff   1.8K Oct 28  2019 github_user2_rsa</span><br><span class="line">-rw-r--r--    1 username  staff   409B Oct 28  2019 github_user2_rsa.pub</span><br></pre></td></tr></table></figure>
-
 <p>配置<code>~/.ssh/config</code>文件如下，如果没有该文件则自行创建一个：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># github user(your_email_1@example.com)</span><br><span class="line">Host github_user1.github.com</span><br><span class="line">HostName github.com</span><br><span class="line">IdentityFile ~/.ssh/github_user1_rsa</span><br><span class="line">User git</span><br><span class="line"></span><br><span class="line"># github user2(your_email_2@example.jp)</span><br><span class="line">Host github_user2.github.com</span><br><span class="line">HostName github.com</span><br><span class="line">IdentityFile ~/.ssh/github_user2_rsa</span><br><span class="line">User git</span><br></pre></td></tr></table></figure>
-
 <p>其中<code>Host</code>字段为<code>HostName</code>的别名，用以区分<code>github_user1</code>和<code>github_user2</code>。<code>git</code>命令会用repo设置中的Hostname来匹配此处的<code>Host</code>别名，如果匹配成功则访问此处<code>Host</code>对应的<code>HostName</code>；</p>
 <p><code>IdentifyFile</code>制定了密钥文件的地址，注意是私钥；</p>
 <p><code>HostName</code>指定了要连接的服务器；</p>
@@ -257,18 +253,14 @@
 <p><img src="/images/what-is-ssh/github-ssh.png" alt="Add SSH key in Github"></p>
 <h2 id="测试配置是否成功"><a href="#测试配置是否成功" class="headerlink" title="测试配置是否成功"></a>测试配置是否成功</h2><p>使用以下命令测试配置是否成功：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Address of github_user_1</span><br><span class="line">ssh -T git@github_user_1.github.com </span><br><span class="line"># 出现如下内容，表示使用github_user_1的身份成功链接Github</span><br><span class="line">Hi github_user_1! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br><span class="line"></span><br><span class="line"># Address of github_user_2</span><br><span class="line">ssh -T git@github_user_2.github.com </span><br><span class="line"># 出现如下内容，表示使用github_user_2的身份成功链接Github</span><br><span class="line">Hi github_user_2！ You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure>
-
 <h2 id="配置成功后的使用"><a href="#配置成功后的使用" class="headerlink" title="配置成功后的使用"></a>配置成功后的使用</h2><p>以<code>git clone</code>为例，使用<code>github_user_1</code>的身份进行操作：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github_user_1.github.com:fastai/fastai_dev.git</span><br></pre></td></tr></table></figure>
-
 <p>注意此处<code>git@</code>后的host名为<code>~/.ssh/config</code>中，为<code>github_user_1</code>指定的<code>Host</code>。</p>
 <p>如果对已有repo修改push地址，则需要修改repo根目录下<code>.git/config</code>中<code>remote</code>字段内容：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[core]</span><br><span class="line">        repositoryformatversion = 0</span><br><span class="line">        filemode = true</span><br><span class="line">        bare = false</span><br><span class="line">        logallrefupdates = true</span><br><span class="line">        ignorecase = true</span><br><span class="line">        precomposeunicode = true</span><br><span class="line">[remote &quot;origin&quot;]</span><br><span class="line">        # 此处将github.com为Host别名</span><br><span class="line">        url = git@github.com:fastai/fastai_dev.git</span><br><span class="line">        fetch = +refs/heads/*:refs/remotes/origin/*</span><br><span class="line">[branch &quot;master&quot;]</span><br><span class="line">        remote = origin</span><br><span class="line">        merge = refs/heads/master</span><br><span class="line">[user]</span><br><span class="line">        name = github_user1</span><br><span class="line">        email = your_email_1@example.com</span><br></pre></td></tr></table></figure>
-
 <p>因为在上面配置SSH的config文件时，用指定的Host别名替代了原来的Hostname，所以现在应该对不同用户使用不同的Host别名来替代Hostname。</p>
 <p>另外，在项目根目录分别设置用户名和邮箱的方法是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config user.name github_user1</span><br><span class="line">git config user.email your_email_1@example.com</span><br></pre></td></tr></table></figure>
-
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
 <li><a href="https://zh.wikipedia.org/zh-cn/Secure_Shell" target="_blank" rel="noopener">Secure Shell - Wikipedia</a></li>
 <li><a href="https://www.jianshu.com/p/33461b619d53" target="_blank" rel="noopener">图解SSH原理 - TopGun_Viper</a></li>
@@ -460,6 +452,59 @@
   
 
   
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 
