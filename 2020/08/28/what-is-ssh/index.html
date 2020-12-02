@@ -17,25 +17,25 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"fizzez.github.io","root":"/","scheme":"Mist","version":"8.0.0-rc.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="SSH原理Secure Shell (SSH)，是一种加密的网络传输协议，最常见的用途是登录到远程电脑中执行命令。SSH使用客户端-服务器模型，标准端口为22。SSH以非对称加密实现身份验证（关于对称以及非对称加密， 详见参考[2]）。从客户端来看，SSH提供两种级别的安全验证：  基于密码的安全验证：使用自动生成的“公钥-私钥对”来简单的加密网络链接，随后使用密码认证进行登录。所有传输的数据都会">
 <meta name="keywords" content="Chinese,System,Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SSH原理和Github多用户设置">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;08&#x2F;28&#x2F;what-is-ssh&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;fizzez.github.io&#x2F;2020&#x2F;08&#x2F;28&#x2F;what-is-ssh&#x2F;index.html">
 <meta property="og:site_name" content="Fizzez">
 <meta property="og:description" content="SSH原理Secure Shell (SSH)，是一种加密的网络传输协议，最常见的用途是登录到远程电脑中执行命令。SSH使用客户端-服务器模型，标准端口为22。SSH以非对称加密实现身份验证（关于对称以及非对称加密， 详见参考[2]）。从客户端来看，SSH提供两种级别的安全验证：  基于密码的安全验证：使用自动生成的“公钥-私钥对”来简单的加密网络链接，随后使用密码认证进行登录。所有传输的数据都会">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;what-is-ssh&#x2F;ssh_pwd_base.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;what-is-ssh&#x2F;ssh_pubkey_base.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;what-is-ssh&#x2F;github-ssh.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;fizzez.github.io&#x2F;images&#x2F;what-is-ssh&#x2F;ssh_pwd_base.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;fizzez.github.io&#x2F;images&#x2F;what-is-ssh&#x2F;ssh_pubkey_base.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;fizzez.github.io&#x2F;images&#x2F;what-is-ssh&#x2F;github-ssh.png">
 <meta property="og:updated_time" content="2020-09-24T01:35:22.165Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;what-is-ssh&#x2F;ssh_pwd_base.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;fizzez.github.io&#x2F;images&#x2F;what-is-ssh&#x2F;ssh_pwd_base.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/08/28/what-is-ssh/">
+<link rel="canonical" href="https://fizzez.github.io/2020/08/28/what-is-ssh/">
 
 
 <script id="page-configurations">
@@ -171,7 +171,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/28/what-is-ssh/">
+    <link itemprop="mainEntityOfPage" href="https://fizzez.github.io/2020/08/28/what-is-ssh/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -379,6 +379,11 @@
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Fizzez" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Fizzez" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
 
 
 
