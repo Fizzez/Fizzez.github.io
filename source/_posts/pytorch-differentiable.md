@@ -1,6 +1,7 @@
 ---
 title: Differentiable Operations in PyTorch
 date: 2020-11-23 18:30:41
+MathJax: true
 tags:
 - Python
 - PyTorch
